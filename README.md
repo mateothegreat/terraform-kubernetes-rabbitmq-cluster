@@ -4,58 +4,40 @@ Deploy a RabbitMQ cluster on kubernetes with
 TLS support.
 
 ```hcl
-module "ca" {
+module "rabbitmq-nontls" {
 
-    source  = "app.terraform.io/MAA-ML-DEVOPS/ca/tls"
-    version = "1.0.1"
+  source  = "app.terraform.io/MAA-ML-DEVOPS/rabbitmq-nontls/kubernetes"
+  version = "1.0.0"
 
-    organization            = "test org"
-    common_name             = "test name"
-    ca_certificate_path     = "out"
-    ca_key_path             = "out"
-    client_certificate_path = "out"
-    client_key_path         = "out"
-    clients                 = [ "one", "two" ]
-    expire_hours            = 86400 * 365
+  host          = "changeme"
+  token         = "changeme"
+  insecure      = true
+  namespace     = "default"
+  name          = "rabbitmq"
+  internal_cidr = "0.0.0.0/0"
 
-}
+  users = [
 
-module "rabbitmq-tls" {
+    {
 
-    source  = "app.terraform.io/MAA-ML-DEVOPS/rabbitmq-tls/kubernetes"
-    version = "1.0.0"
+      username    = "rabbitmq"
+      password    = "agaeq14"
+      vhost       = "/"
+      tags        = "administrator"
+      permissions = "'.*' '.*' '.*'"
 
-    host          = "kubernetes api url"
-    token         = "kubernetes api token"
-    insecure      = true
-    namespace     = "default"
-    name          = "rabbitmq"
-    internal_cidr = ""
-    ca_cert_pem   = module.ca.ca_public_key
+    },
+    {
 
-    users = [
+      username    = "someuser"
+      password    = "changeme"
+      vhost       = "/somevhost"
+      tags        = ""
+      permissions = "'.*' '.*' '.*'"
 
-        {
+    }
 
-            username = "someadmin"
-            password = "changeme"
-            vhost = "/"
-            tags = "administrator"
-            permissions = "'.*' '.*' '.*'"
-
-        },
-        {
-
-            username = "someuser"
-            password = "changeme"
-            vhost = "/somevhost"
-            tags = ""
-            permissions = "'.*' '.*' '.*'"
-
-        }
-
-
-    ]
+  ]
 
 }
 ```
