@@ -32,7 +32,7 @@ resource "kubernetes_secret" "additional-config" {
         "prometheus-additional.yaml" = <<CONFIG
             - job_name: "rabbitmq"
               static_configs:
-                - targets: ["${ var.name }-rabbitmq-client:15692"]
+                - targets: ["${ var.name }-rabbitmq-client.default:15692"]
         CONFIG
 
     }
