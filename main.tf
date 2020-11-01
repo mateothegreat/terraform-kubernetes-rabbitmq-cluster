@@ -39,6 +39,30 @@ resource "kubernetes_manifest" "cluster" {
             replicas = var.replicas
             image    = "rabbitmq:3-management"
 
+            override = {
+
+                clientService = {
+
+                    spec = {
+
+                        ports = [
+
+                            {
+
+                                name = "prometheus"
+                                protocol = "TCP"
+                                port = 15692
+
+                            }
+
+                        ]
+
+                    }
+
+                }
+
+            }
+
             rabbitmq = {
 
                 additionalPlugins = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel", "rabbitmq_prometheus" ]
@@ -55,7 +79,6 @@ resource "kubernetes_manifest" "cluster" {
                     "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidr
 
                 }
-
 
             }
 
