@@ -23,7 +23,7 @@ resource "kubernetes_secret" "additional-config" {
     metadata {
 
         name      = "additional-scrape-configs"
-        namespace = var.namespace
+        namespace = "monitoring"
 
     }
 
