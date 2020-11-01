@@ -22,7 +22,7 @@ resource "kubernetes_secret" "additional-config" {
 
     metadata {
 
-        name = "additional-scrap-configs"
+        name = "additional-scrape-configs"
         namespace = var.namespace
 
     }
