@@ -41,7 +41,7 @@ resource "kubernetes_manifest" "cluster" {
 
             rabbitmq = {
 
-                additionalPlugins = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel" ]
+                additionalPlugins = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel", "rabbitmq_prometheus" ]
 
             }
 
