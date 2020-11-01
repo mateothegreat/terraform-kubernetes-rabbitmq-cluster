@@ -18,6 +18,27 @@ provider "kubernetes-alpha" {
 
 }
 
+resource "kubernetes_secret" "additional-config" {
+
+    metadata {
+
+        name = "additional-scrap-configs"
+        namespace = var.namespace
+
+    }
+
+    data = {
+
+        "prometheus-additional.yaml" = <<CONFIG
+            - job_name: "rabbitmq"
+              static_configs:
+                - targets: ["rabbitmq-rabbitmq-client:15692"]
+        CONFIG
+
+    }
+
+}
+
 resource "kubernetes_manifest" "cluster" {
 
     provider = kubernetes-alpha.this
