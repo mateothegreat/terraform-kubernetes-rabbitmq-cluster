@@ -22,7 +22,7 @@ resource "kubernetes_secret" "additional-config" {
 
     metadata {
 
-        name = "additional-scrape-configs"
+        name      = "additional-scrape-configs"
         namespace = var.namespace
 
     }
@@ -32,7 +32,7 @@ resource "kubernetes_secret" "additional-config" {
         "prometheus-additional.yaml" = <<CONFIG
             - job_name: "rabbitmq"
               static_configs:
-                - targets: ["rabbitmq-rabbitmq-client:15692"]
+                - targets: ["${ var.name }-rabbitmq-client:15692"]
         CONFIG
 
     }
@@ -70,13 +70,51 @@ resource "kubernetes_manifest" "cluster" {
 
                             {
 
-                                name = "prometheus"
+                                name     = "prometheus"
                                 protocol = "TCP"
-                                port = 15692
+                                port     = 15692
 
                             }
 
                         ]
+
+                    }
+
+                }
+
+                statefulSet = {
+
+                    spec = {
+
+                        template = {
+
+                            spect = {
+
+                                containers = [
+
+                                    {
+
+                                        name = "rabbitmq"
+
+                                        ports = [
+
+                                            {
+
+                                                name          = "prometheus"
+                                                protocol      = "TCP"
+                                                containerPort = 15692
+
+                                            }
+
+                                        ]
+
+                                    }
+
+                                ]
+
+                            }
+
+                        }
 
                     }
 
