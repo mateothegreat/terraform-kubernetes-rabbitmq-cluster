@@ -110,7 +110,7 @@ resource "kubernetes_manifest" "cluster" {
 
             service = var.service
 
-            persistence = var.persistence
+//            persistence = var.persistence
 
             resources = {
 
