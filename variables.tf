@@ -125,7 +125,6 @@ variable "service" {
         annotations = {
 
             "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-//            "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidr
 
         }
 
