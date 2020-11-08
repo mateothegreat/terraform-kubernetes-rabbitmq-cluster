@@ -1,4 +1,4 @@
-variable "server" {
+variable "host" {
 
     type        = string
     description = "url to cluster api"
