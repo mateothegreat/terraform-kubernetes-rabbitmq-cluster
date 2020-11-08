@@ -131,3 +131,24 @@ variable "service" {
     }
 
 }
+
+variable "persistence" {
+
+    type        = map
+    description = "persistence object definition"
+    default     = {
+
+        storageClassName = "gp2"
+        storage          = "10Gi"
+
+    }
+
+}
+
+variable "additional_plugins" {
+
+    type        = list(string)
+    description = "plugins to install"
+    default     = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel", "rabbitmq_prometheus" ]
+
+}

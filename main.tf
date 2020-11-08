@@ -103,18 +103,14 @@ resource "kubernetes_manifest" "cluster" {
 
             rabbitmq = {
 
-                additionalPlugins = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel", "rabbitmq_prometheus" ]
+                additionalPlugins = var.additional_plugins
+
 
             }
 
             service = var.service
 
-            persistence = {
-
-                storageClassName = "gp2"
-                storage          = "${ var.storage_gb }Gi"
-
-            }
+            persistence = var.persistence
 
             resources = {
 
