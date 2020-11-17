@@ -2,9 +2,10 @@ provider "kubernetes" {
 
     alias = "this"
 
-    host     = var.host
-    token    = var.token
-    insecure = var.insecure
+    host                   = var.host
+    token                  = var.token
+    cluster_ca_certificate = var.cluster_ca_certificate
+    insecure               = var.insecure
 
 }
 
@@ -12,9 +13,10 @@ provider "kubernetes-alpha" {
 
     alias = "this"
 
-    host     = var.host
-    token    = var.token
-    insecure = var.insecure
+    host                   = var.host
+    token                  = var.token
+    cluster_ca_certificate = var.cluster_ca_certificate
+    insecure               = var.insecure
 
 }
 
