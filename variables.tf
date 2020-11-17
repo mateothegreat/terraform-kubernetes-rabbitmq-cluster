@@ -1,3 +1,11 @@
+variable "cluster_ca_certificate" {
+
+    type        = string
+    description = "cluster_ca_certificate for cluster api"
+    default     = null
+
+}
+
 variable "host" {
 
     type        = string
@@ -76,12 +84,12 @@ variable "limit_memory" {
 
 variable "users" {
 
-    type = list(object({
+    type        = list(object({
 
-        username = string
-        password = string
-        vhost = string
-        tags = string
+        username    = string
+        password    = string
+        vhost       = string
+        tags        = string
         permissions = string
 
     }))
@@ -91,24 +99,24 @@ variable "users" {
 
 variable "replicas" {
 
-    type = number
+    type        = number
     description = "number of replica pods"
-    default = 1
+    default     = 1
 
 }
 
 variable "internal_cidr" {
 
-    type = any
+    type        = any
     description = "restrict loadbalancer to internal cidr"
-    default = null
+    default     = null
 
 }
 
 variable "storage_gb" {
 
-    type = number
+    type        = number
     description = "storage size in gb"
-    default = 10
+    default     = 10
 
 }
