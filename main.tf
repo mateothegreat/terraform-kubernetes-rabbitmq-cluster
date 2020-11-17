@@ -155,7 +155,7 @@ resource "null_resource" "readywait" {
 
     provisioner "local-exec" {
 
-        command = "sleep 10 && kubectl rollout status statefulset/${ var.name }-rabbitmq-server"
+        command = "sleep 10 && kubectl rollout status statefulset/${ var.name }-server"
 
     }
 
@@ -169,7 +169,7 @@ resource "null_resource" "adduser" {
 
     provisioner "local-exec" {
 
-        command = "kubectl exec -n ${ var.namespace } ${ var.name }-rabbitmq-server-0 -it -- rabbitmqctl add_user '${ var.users[ count.index ].username }' '${ var.users[ count.index ].password }' && kubectl exec -n ${ var.namespace } ${ var.name }-rabbitmq-server-0 -it -- rabbitmqctl set_user_tags '${ var.users[ count.index ].username }' '${ var.users[ count.index ].tags }' && kubectl exec -n ${ var.namespace } ${ var.name }-rabbitmq-server-0 -it -- rabbitmqctl set_permissions -p / '${ var.users[ count.index ].username }' ${ var.users[ count.index ].permissions }"
+        command = "kubectl exec -n ${ var.namespace } ${ var.name }-server-0 -it -- rabbitmqctl add_user '${ var.users[ count.index ].username }' '${ var.users[ count.index ].password }' && kubectl exec -n ${ var.namespace } ${ var.name }-rabbitmq-server-0 -it -- rabbitmqctl set_user_tags '${ var.users[ count.index ].username }' '${ var.users[ count.index ].tags }' && kubectl exec -n ${ var.namespace } ${ var.name }-rabbitmq-server-0 -it -- rabbitmqctl set_permissions -p / '${ var.users[ count.index ].username }' ${ var.users[ count.index ].permissions }"
 
     }
 
