@@ -129,23 +129,23 @@ resource "kubernetes_manifest" "cluster" {
 
             }
 
-#            resources = {
-#
-#                requests = {
-#
-#                    cpu    = var.limit_cpu
-#                    memory = var.limit_memory
-#
-#                }
-#
-#                limits = {
-#
-#                    cpu    = var.limit_cpu
-#                    memory = var.limit_memory
-#
-#                }
-#
-#            }
+            resources = {
+
+                requests = {
+
+                    cpu    = var.limit_cpu
+                    memory = var.limit_memory
+
+                }
+
+                limits = {
+
+                    cpu    = var.limit_cpu
+                    memory = var.limit_memory
+
+                }
+
+            }
 
         }
 
