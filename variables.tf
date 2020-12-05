@@ -39,6 +39,7 @@ variable "name" {
 
     type        = string
     description = "cluster name"
+    default     = ""
 
 }
 
