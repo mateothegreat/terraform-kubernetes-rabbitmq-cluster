@@ -140,7 +140,7 @@ resource "null_resource" "readywait" {
 
     provisioner "local-exec" {
 
-        command = "sleep 10 && kubectl --server=\"${ var.host }\" --token=\"${ var.token }\" rollout status statefulset/${ var.name }-rabbitmq-server"
+        command = "sleep 10 && kubectl --server=\"${ var.host }\" --token=\"${ var.token }\" rollout status statefulset/${ var.name }-server"
 
     }
 
