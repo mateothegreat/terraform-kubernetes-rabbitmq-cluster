@@ -55,7 +55,7 @@ resource "kubernetes_manifest" "cluster" {
 
                                         key      = "role"
                                         operator = "In"
-                                        values   = [ "gpu" ]
+                                        values   = [ var.role ]
 
                                     }
 

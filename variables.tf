@@ -34,11 +34,10 @@ variable "name" {
 
 }
 
-variable "node_selector" {
+variable "role" {
 
-    type        = map(string)
+    type        = string
     description = "run on on nodes matching selector"
-    default     = null
 
 }
 
