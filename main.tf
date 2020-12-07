@@ -39,6 +39,38 @@ resource "kubernetes_manifest" "cluster" {
             replicas = var.replicas
             image    = "rabbitmq:3-management"
 
+            affinity = {
+
+                nodeAffinity = {
+
+                    requiredDuringSchedulingIgnoredDuringExecution = {
+
+                        nodeSelectorTerms = [
+
+                            {
+
+                                matchExpressions = [
+
+                                    {
+
+                                        key      = "role"
+                                        operator = "In"
+                                        values   = [ "gpu" ]
+
+                                    }
+
+                                ]
+
+                            }
+
+                        ]
+
+                    }
+
+                }
+
+            }
+
             override = {
 
                 clientService = {
