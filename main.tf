@@ -137,9 +137,7 @@ resource "kubernetes_manifest" "cluster" {
 
                 additionalPlugins = var.additional_plugins
 
-                envConfig = <<EOF
-prometheus.return_per_object_metrics = true
-EOF
+                envConfig = "rabbitmq_prometheus.return_per_object_metrics=true"
 
             }
 
