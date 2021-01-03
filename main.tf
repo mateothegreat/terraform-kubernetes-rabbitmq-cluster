@@ -137,6 +137,11 @@ resource "kubernetes_manifest" "cluster" {
 
                 additionalPlugins = var.additional_plugins
 
+                envConfig = {
+
+                    return_per_object_metrics = true
+
+                }
 
             }
 
