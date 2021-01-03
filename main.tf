@@ -139,7 +139,7 @@ resource "kubernetes_manifest" "cluster" {
 
                 envConfig = {
 
-                    return_per_object_metrics = true
+                    return_per_object_metrics = "true"
 
                 }
 
