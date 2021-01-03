@@ -73,7 +73,7 @@ resource "kubernetes_manifest" "cluster" {
 
             override = {
 
-                service = {
+                clientService = {
 
                     spec = {
 
