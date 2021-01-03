@@ -37,7 +37,7 @@ resource "kubernetes_manifest" "cluster" {
         "spec" = {
 
             replicas = var.replicas
-            image    = "rabbitmq:3-management"
+            image    = "rabbitmq:3.8.2-management"
 
             affinity = {
 
@@ -137,7 +137,7 @@ resource "kubernetes_manifest" "cluster" {
 
                 additionalPlugins = var.additional_plugins
 
-                envConfig = "rabbitmq_prometheus.return_per_object_metrics=true"
+#                envConfig = "rabbitmq_prometheus.return_per_object_metrics=true"
 
             }
 
