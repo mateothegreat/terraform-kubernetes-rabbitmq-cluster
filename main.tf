@@ -37,7 +37,7 @@ resource "kubernetes_manifest" "cluster" {
         "spec" = {
 
             replicas = var.replicas
-            image    = "rabbitmq:3.8.2-management"
+            image    = var.image
 
             affinity = {
 
