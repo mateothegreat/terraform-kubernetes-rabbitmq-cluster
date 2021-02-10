@@ -143,8 +143,7 @@ resource "kubernetes_manifest" "cluster" {
             rabbitmq = {
 
                 additionalPlugins = var.additional_plugins
-
-                #                envConfig = "rabbitmq_prometheus.return_per_object_metrics=true"
+                additionalConfig = "prometheus.return_per_object_metrics = true"
 
             }
 
