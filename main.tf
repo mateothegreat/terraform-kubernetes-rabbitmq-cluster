@@ -100,6 +100,12 @@ resource "kubernetes_manifest" "cluster" {
 
                         template = {
 
+                            metadata = {
+
+                                labels = var.labels
+
+                            }
+
                             spect = {
 
                                 containers = [
