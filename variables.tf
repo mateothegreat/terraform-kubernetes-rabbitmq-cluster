@@ -141,7 +141,15 @@ variable "additional_plugins" {
 
     type        = list(string)
     description = "plugins to install"
-    default     = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel", "rabbitmq_prometheus" ]
+    default     = [
+
+        "rabbitmq_management",
+        "rabbitmq_top",
+        "rabbitmq_shovel",
+        "rabbitmq_prometheus",
+        "rabbitmq_peer_discovery_k8s"
+
+    ]
 
 }
 
