@@ -121,3 +121,11 @@ variable "storage_gb" {
     default     = 10
 
 }
+
+variable "labels" {
+
+    type        = map
+    description = "labels"
+    default     = null
+
+}

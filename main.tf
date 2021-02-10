@@ -39,11 +39,11 @@ resource "kubernetes_manifest" "cluster" {
         "spec" = {
 
             replicas = var.replicas
-            image    = "rabbitmq:3-management"
+            image    = var.image
 
             override = {
 
-                clientService = {
+                service = {
 
                     spec = {
 
@@ -68,6 +68,12 @@ resource "kubernetes_manifest" "cluster" {
                     spec = {
 
                         template = {
+
+                            metadata = {
+
+                                labels = var.labels
+
+                            }
 
                             spect = {
 
