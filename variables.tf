@@ -97,14 +97,6 @@ variable "replicas" {
 
 }
 
-variable "internal_cidr" {
-
-    type        = any
-    description = "restrict loadbalancer to internal cidr"
-    default     = null
-
-}
-
 variable "storage_gb" {
 
     type        = number
@@ -123,7 +115,8 @@ variable "service" {
 
         annotations = {
 
-            "service.beta.kubernetes.io/aws-load-balancer-type" = "nlb"
+            "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+            "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
 
         }
 
