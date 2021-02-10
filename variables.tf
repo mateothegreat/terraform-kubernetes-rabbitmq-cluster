@@ -151,3 +151,11 @@ variable "additional_plugins" {
     default     = [ "rabbitmq_management", "rabbitmq_top", "rabbitmq_shovel", "rabbitmq_prometheus" ]
 
 }
+
+variable "labels" {
+
+    type        = map
+    description = "labels"
+    default     = null
+
+}
