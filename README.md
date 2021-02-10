@@ -67,7 +67,7 @@ data "aws_eks_cluster_auth" "cluster" {
 module "rabbitmq-nontls" {
 
     source  = "app.terraform.io/MAA-ML-DEVOPS/rabbitmq-nontls/kubernetes"
-    version = "1.0.17"
+    version = "1.0.18"
 
     host          = data.aws_eks_cluster.cluster.endpoint
     token         = data.aws_eks_cluster_auth.cluster.token
