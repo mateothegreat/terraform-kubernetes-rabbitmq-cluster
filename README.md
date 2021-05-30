@@ -26,9 +26,6 @@ provider "aws" {
 #
 data "aws_eks_cluster" "cluster" {
 
-    #
-    # mlfabric k8 cluster specifically for github action runners.
-    #
     name = var.cluster_name
 
 }
@@ -38,9 +35,6 @@ data "aws_eks_cluster" "cluster" {
 #
 data "aws_eks_cluster_auth" "cluster" {
 
-    #
-    # mlfabric k8 cluster specifically for github action runners.
-    #
     name = var.cluster_name
 
 }
