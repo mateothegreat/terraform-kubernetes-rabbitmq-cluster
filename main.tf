@@ -1,26 +1,4 @@
-provider "kubernetes" {
-
-    alias = "this"
-
-    host     = var.host
-    token    = var.token
-    insecure = var.insecure
-
-}
-
-provider "kubernetes-alpha" {
-
-    alias = "this"
-
-    host     = var.host
-    token    = var.token
-    insecure = var.insecure
-
-}
-
 resource "kubernetes_manifest" "cluster" {
-
-    provider = kubernetes-alpha.this
 
     manifest = {
 
