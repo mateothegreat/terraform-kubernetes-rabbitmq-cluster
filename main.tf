@@ -155,8 +155,8 @@ resource "kubernetes_manifest" "cluster" {
 
                 requests = {
 
-                    cpu    = var.limit_cpu
-                    memory = var.limit_memory
+                    cpu    = var.request_cpu
+                    memory = var.request_memory
 
                 }
 

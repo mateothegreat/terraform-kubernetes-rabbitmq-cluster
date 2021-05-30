@@ -57,6 +57,22 @@ variable "cookie" {
 
 }
 
+variable "request_cpu" {
+
+    type        = string
+    description = "cpu request"
+    default     = "1000m"
+
+}
+
+variable "request_memory" {
+
+    type        = string
+    description = "memory request"
+    default     = "2Gi"
+
+}
+
 variable "limit_cpu" {
 
     type        = string
