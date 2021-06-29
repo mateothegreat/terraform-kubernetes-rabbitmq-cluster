@@ -89,22 +89,6 @@ variable "limit_memory" {
 
 }
 
-variable "users" {
-
-    type = list(object({
-
-        username    = string
-        password    = string
-        vhost       = string
-        tags        = string
-        permissions = string
-
-    }))
-
-    description = "list of users with permissions to create"
-
-}
-
 variable "replicas" {
 
     type        = number
@@ -127,14 +111,7 @@ variable "service" {
 
     default = {
 
-        type = "LoadBalancer"
-
-        annotations = {
-
-            "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-            "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
-
-        }
+        type = "ClusterIP"
 
     }
 
@@ -174,5 +151,21 @@ variable "labels" {
     type        = map
     description = "labels"
     default     = null
+
+}
+
+variable "default_username" {
+
+    type = string
+    description = "username to create"
+    default = null
+
+}
+
+variable "default_password" {
+
+    type = string
+    description = "password to set"
+    default = null
 
 }
