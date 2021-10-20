@@ -168,8 +168,6 @@ EOF
 
             }
 
-            service = var.service
-
             persistence = var.persistence
 
             resources = {
