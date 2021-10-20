@@ -118,10 +118,6 @@ resource "kubernetes_manifest" "cluster" {
 
             }
 
-            rabbitmq = {
-
-            }
-
             service = {
 
                 type = "LoadBalancer"
