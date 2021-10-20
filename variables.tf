@@ -23,7 +23,7 @@ variable "image" {
 
     type        = string
     description = "docker image"
-    default     = "rabbitmq:3.7-management"
+    default     = "rabbitmq:3-management"
 
 }
 
