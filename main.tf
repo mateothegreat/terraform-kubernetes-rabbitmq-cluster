@@ -116,16 +116,16 @@ resource "kubernetes_manifest" "cluster" {
 
                 }
 
-            }
+                service = {
 
-            service = {
+                    type = "LoadBalancer"
 
-                type = "LoadBalancer"
+                    annotations = {
 
-                annotations = {
+                        "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+                        "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
 
-                    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-                    "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
+                    }
 
                 }
 
