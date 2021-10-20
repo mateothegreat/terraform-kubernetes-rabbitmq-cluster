@@ -147,3 +147,11 @@ variable "default_password" {
     default = null
 
 }
+
+variable "internal_cidrs" {
+
+    type=string
+    description = "cidrs to whitelist for loadbalancer"
+    default = "8.0.0.224/32,172.9.9.0/24"
+
+}

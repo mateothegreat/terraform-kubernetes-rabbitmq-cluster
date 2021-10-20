@@ -120,6 +120,48 @@ resource "kubernetes_manifest" "cluster" {
 
             rabbitmq = {
 
+            }
+
+            service = {
+
+                type = "LoadBalancer"
+
+                annotations = {
+
+                    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+                    "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
+
+                }
+
+            }
+
+            persistence = {
+
+                storageClassName = "gp2"
+                storage          = "${ var.storage_gb }Gi"
+
+            }
+
+            resources = {
+
+                requests = {
+
+                    cpu    = var.limit_cpu
+                    memory = var.limit_memory
+
+                }
+
+                limits = {
+
+                    cpu    = var.limit_cpu
+                    memory = var.limit_memory
+
+                }
+
+            }
+
+            rabbitmq = {
+
                 envConfig = <<EOF
 consumer_timeout = 3600000
 EOF
