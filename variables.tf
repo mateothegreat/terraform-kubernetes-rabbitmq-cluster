@@ -1,25 +1,3 @@
-variable "host" {
-
-    type        = string
-    description = "url to cluster api"
-
-}
-
-variable "token" {
-
-    type        = string
-    description = "api token"
-
-}
-
-variable "insecure" {
-
-    type        = bool
-    description = "skip ssl certificate verification"
-    default     = false
-
-}
-
 variable "namespace" {
 
     type        = string

@@ -8,16 +8,12 @@ Deploy a RabbitMQ cluster on kubernetes using the RabbitmqOperator.
 
 ## Implementation
 ```hcl
-variable "aws_profile" {}
-variable "aws_region" {}
-
 #
-# Retrieve authentication for kubernetes from aws.
+# Use the s3 bucket for state management.
 #
-provider "aws" {
+terraform {
 
-    profile = var.aws_profile
-    region  = var.aws_region
+  backend "s3" {}
 
 }
 
@@ -26,7 +22,10 @@ provider "aws" {
 #
 data "aws_eks_cluster" "cluster" {
 
-    name = var.cluster_name
+  #
+  # mlfabric k8 cluster specifically for github action runners.
+  #
+  name = var.cluster_name
 
 }
 
@@ -35,8 +34,51 @@ data "aws_eks_cluster" "cluster" {
 #
 data "aws_eks_cluster_auth" "cluster" {
 
-    name = var.cluster_name
+  #
+  # mlfabric k8 cluster specifically for github action runners.
+  #
+  name = var.cluster_name
 
+}
+
+#
+# Install the rabbitmq cluster object.
+#
+variable "aws_profile" {}
+variable "aws_region" {}
+
+#
+# Retrieve authentication for kubernetes from aws.
+#
+provider "aws" {
+
+  profile = var.aws_profile
+  region  = var.aws_region
+
+}
+
+#
+# Get kubernetes cluster info.
+#
+data "aws_eks_cluster" "cluster" {
+
+  name = var.cluster_name
+
+}
+
+#
+# Retrieve authentication for kubernetes from aws.
+#
+data "aws_eks_cluster_auth" "cluster" {
+
+  name = var.cluster_name
+
+}
+
+provider "kubernetes" {
+  host = data.aws_eks_cluster.cluster.endpoint
+  token = data.aws_eks_cluster_auth.cluster.token
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
 }
 
 #
@@ -44,47 +86,45 @@ data "aws_eks_cluster_auth" "cluster" {
 #
 module "rabbitmq-nontls" {
 
-    source  = "<source>"
-    version = "<version>"
+  source  = "app.terraform.io/MAA-ML-DEVOPS/rabbitmq-cluster/kubernetes"
+  version = "2.0.7"
 
-    host          = data.aws_eks_cluster.cluster.endpoint
-    token         = data.aws_eks_cluster_auth.cluster.token
-    insecure      = true
-    namespace     = "default"
-    name          = "rabbitmq"
-    internal_cidr = "0.0.0.0/0"
-    limit_cpu     = "3"
-    limit_memory  = "6Gi"
-    replicas      = 1
+  namespace     = "default"
+  name          = "rabbitmq"
+  internal_cidr = "8.0.0.224/32"
+  limit_cpu     = "7"
+  limit_memory  = "15Gi"
+  replicas      = 3
+
+  #
+  # Restrict rabbitmq to running on nodes with this selector.
+  #
+  role = "infra"
+
+  labels = {
 
     #
-    # Restrict rabbitmq to running on nodes with this selector.
+    # Prevent right sizing of the workload which causes rabbitmq
+    # to be rescheduled if downsizing occurs.
     #
-    role = "infra"
+    "spotinst.io/restrict-scale-down" = true
 
-    labels = {
+  }
 
-        #
-        # Prevent right sizing of the workload which causes rabbitmq
-        # to be rescheduled if downsizing occurs.
-        #
-        "spotinst.io/restrict-scale-down" = true
+  users = [
+
+    {
+
+      username    = "<username>"
+      password    = "<password>"
+      vhost       = "/"
+      tags        = "administrator"
+      permissions = "'.*' '.*' '.*'"
 
     }
 
-    users = [
-
-        {
-
-            username    = "<changeme>"
-            password    = "<changeme>"
-            vhost       = "/"
-            tags        = "administrator"
-            permissions = "'.*' '.*' '.*'"
-
-        }
-
-    ]
+  ]
 
 }
+
 ```
