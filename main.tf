@@ -122,6 +122,10 @@ resource "kubernetes_manifest" "cluster" {
 
             rabbitmq = {
 
+                envConfig = <<EOF
+consumer_timeout = 3600000
+EOF
+
                 additionalPlugins = var.additional_plugins
                 additionalConfig  = <<EOF
 prometheus.return_per_object_metrics = true
