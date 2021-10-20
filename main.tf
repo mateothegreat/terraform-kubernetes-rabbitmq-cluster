@@ -18,6 +18,19 @@ resource "kubernetes_manifest" "cluster" {
             replicas = var.replicas
             image    = var.image
 
+            service = {
+
+                type = "LoadBalancer"
+
+                annotations = {
+
+                    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+                    "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
+
+                }
+
+            }
+
             affinity = {
 
                 nodeAffinity = {
@@ -111,19 +124,6 @@ resource "kubernetes_manifest" "cluster" {
 #                            }
 
                         }
-
-                    }
-
-                }
-
-                service = {
-
-                    type = "LoadBalancer"
-
-                    annotations = {
-
-                        "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-                        "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
 
                     }
 
