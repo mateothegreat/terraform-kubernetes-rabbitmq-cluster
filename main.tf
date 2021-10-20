@@ -1,7 +1,5 @@
 resource "kubernetes_manifest" "cluster" {
 
-    provider = kubernetes-alpha
-
     manifest = {
 
         "apiVersion" = "rabbitmq.com/v1beta1"
