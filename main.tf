@@ -5,6 +5,12 @@ resource "kubernetes_manifest" "cluster" {
         "apiVersion" = "rabbitmq.com/v1beta1"
         "kind"       = "RabbitmqCluster"
 
+        field_manager = {
+
+            force_conflicts = true
+
+        }
+
         "metadata" = {
 
             "namespace" = var.namespace
@@ -65,25 +71,25 @@ resource "kubernetes_manifest" "cluster" {
 
             override = {
 
-#                service = {
-#
-#                    spec = {
-#
-#                        ports = [
-#
-#                            {
-#
-#                                name     = "prometheus"
-#                                protocol = "TCP"
-#                                port     = 15692
-#
-#                            }
-#
-#                        ]
-#
-#                    }
-#
-#                }
+                #                service = {
+                #
+                #                    spec = {
+                #
+                #                        ports = [
+                #
+                #                            {
+                #
+                #                                name     = "prometheus"
+                #                                protocol = "TCP"
+                #                                port     = 15692
+                #
+                #                            }
+                #
+                #                        ]
+                #
+                #                    }
+                #
+                #                }
 
                 statefulSet = {
 
@@ -97,31 +103,31 @@ resource "kubernetes_manifest" "cluster" {
 
                             }
 
-#                            spec = {
-#
-#                                containers = [
-#
-#                                    {
-#
-#                                        name = "rabbitmq"
-#
-#                                        ports = [
-#
-#                                            {
-#
-#                                                name          = "prometheus"
-#                                                protocol      = "TCP"
-#                                                containerPort = 15692
-#
-#                                            }
-#
-#                                        ]
-#
-#                                    }
-#
-#                                ]
-#
-#                            }
+                            #                            spec = {
+                            #
+                            #                                containers = [
+                            #
+                            #                                    {
+                            #
+                            #                                        name = "rabbitmq"
+                            #
+                            #                                        ports = [
+                            #
+                            #                                            {
+                            #
+                            #                                                name          = "prometheus"
+                            #                                                protocol      = "TCP"
+                            #                                                containerPort = 15692
+                            #
+                            #                                            }
+                            #
+                            #                                        ]
+                            #
+                            #                                    }
+                            #
+                            #                                ]
+                            #
+                            #                            }
 
                         }
 
