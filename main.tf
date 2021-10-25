@@ -1,6 +1,6 @@
 resource "kubernetes_manifest" "cluster" {
 
-    field_manager = {
+    field_manager {
 
         force_conflicts = true
 
