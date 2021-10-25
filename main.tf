@@ -1,15 +1,15 @@
 resource "kubernetes_manifest" "cluster" {
 
+    field_manager = {
+
+        force_conflicts = true
+
+    }
+
     manifest = {
 
         "apiVersion" = "rabbitmq.com/v1beta1"
         "kind"       = "RabbitmqCluster"
-
-        field_manager = {
-
-            force_conflicts = true
-
-        }
 
         "metadata" = {
 
