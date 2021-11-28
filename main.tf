@@ -139,7 +139,7 @@ resource "kubernetes_manifest" "cluster" {
 
             persistence = {
 
-                storageClassName = var.storage_class"
+                storageClassName = var.storage_class
                 storage          = "${ var.storage_gb }Gi"
 
             }
