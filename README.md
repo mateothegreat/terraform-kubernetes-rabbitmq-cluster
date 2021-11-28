@@ -87,8 +87,8 @@ provider "kubernetes" {
 #
 module "rabbitmq-nontls" {
 
-    source  = "app.terraform.io/MAA-ML-DEVOPS/rabbitmq-cluster/kubernetes"
-    version = "2.0.7"
+    source  = "mateothegreat/rabbitmq-cluster/kubernetes"
+    version = "2.0.20"
 
     namespace        = "default"
     name             = "rabbitmq"
@@ -98,11 +98,11 @@ module "rabbitmq-nontls" {
     replicas         = 3
     default_username = "rabbitmq"
     default_password = "supersecret"
-    
+
     #
     # Restrict rabbitmq to running on nodes with this selector.
     #
-    role             = "infra"
+    role = "infra"
 
     labels = {
 

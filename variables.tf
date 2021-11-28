@@ -83,6 +83,14 @@ variable "storage_gb" {
 
 }
 
+variable "storage_class" {
+
+    type        = string
+    description = "storage class name"
+    default     = 10
+
+}
+
 variable "service" {
 
     description = "service annotations"
@@ -134,24 +142,24 @@ variable "labels" {
 
 variable "default_username" {
 
-    type = string
+    type        = string
     description = "username to create"
-    default = null
+    default     = null
 
 }
 
 variable "default_password" {
 
-    type = string
+    type        = string
     description = "password to set"
-    default = null
+    default     = null
 
 }
 
 variable "internal_cidrs" {
 
-    type=string
+    type        = string
     description = "cidrs to whitelist for loadbalancer"
-    default = "8.0.0.224/32,172.9.9.0/24"
+    default     = "8.0.0.224/32,172.9.9.0/24"
 
 }
