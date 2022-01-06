@@ -1,201 +1,200 @@
 resource "kubernetes_manifest" "cluster" {
 
-    field_manager {
+  field_manager {
 
-        force_conflicts = true
+    force_conflicts = true
+
+  }
+
+  manifest = {
+
+    "apiVersion" = "rabbitmq.com/v1beta1"
+    "kind"       = "RabbitmqCluster"
+
+    "metadata" = {
+
+      "namespace" = var.namespace
+      "name"      = var.name
+      "labels"    = var.labels
 
     }
 
-    manifest = {
+    "spec" = {
 
-        "apiVersion" = "rabbitmq.com/v1beta1"
-        "kind"       = "RabbitmqCluster"
+      replicas = var.replicas
+      image    = var.image
 
-        "metadata" = {
+      service = {
 
-            "namespace" = var.namespace
-            "name"      = var.name
-            "labels"    = var.labels
+        type = "LoadBalancer"
+
+        annotations = {
+
+          "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+          "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
 
         }
 
-        "spec" = {
+      }
 
-            replicas = var.replicas
-            image    = var.image
+      affinity = {
 
-            service = {
+        nodeAffinity = {
 
-                type = "LoadBalancer"
+          requiredDuringSchedulingIgnoredDuringExecution = {
 
-                annotations = {
+            nodeSelectorTerms = [
 
-                    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-                    "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
+              {
 
-                }
+                matchExpressions = [
 
-            }
+                  {
 
-            affinity = {
+                    key      = var.selector_key
+                    operator = var.selector_operator
+                    values   = [var.selector_value]
 
-                nodeAffinity = {
+                  }
 
-                    requiredDuringSchedulingIgnoredDuringExecution = {
+                ]
 
-                        nodeSelectorTerms = [
+              }
 
-                            {
+            ]
 
-                                matchExpressions = [
+          }
 
-                                    {
+        }
 
-                                        key      = "role"
-                                        operator = "In"
-                                        values   = [ var.role ]
+      }
 
-                                    }
+      override = {
 
-                                ]
+        #                service = {
+        #
+        #                    spec = {
+        #
+        #                        ports = [
+        #
+        #                            {
+        #
+        #                                name     = "prometheus"
+        #                                protocol = "TCP"
+        #                                port     = 15692
+        #
+        #                            }
+        #
+        #                        ]
+        #
+        #                    }
+        #
+        #                }
 
-                            }
+        statefulSet = {
 
-                        ]
+          spec = {
 
-                    }
+            template = {
 
-                }
+              metadata = {
 
-            }
+                labels = var.labels
 
-            override = {
+              }
 
-                #                service = {
-                #
-                #                    spec = {
-                #
-                #                        ports = [
-                #
-                #                            {
-                #
-                #                                name     = "prometheus"
-                #                                protocol = "TCP"
-                #                                port     = 15692
-                #
-                #                            }
-                #
-                #                        ]
-                #
-                #                    }
-                #
-                #                }
-
-                statefulSet = {
-
-                    spec = {
-
-                        template = {
-
-                            metadata = {
-
-                                labels = var.labels
-
-                            }
-
-                            #                            spec = {
-                            #
-                            #                                containers = [
-                            #
-                            #                                    {
-                            #
-                            #                                        name = "rabbitmq"
-                            #
-                            #                                        ports = [
-                            #
-                            #                                            {
-                            #
-                            #                                                name          = "prometheus"
-                            #                                                protocol      = "TCP"
-                            #                                                containerPort = 15692
-                            #
-                            #                                            }
-                            #
-                            #                                        ]
-                            #
-                            #                                    }
-                            #
-                            #                                ]
-                            #
-                            #                            }
-
-                        }
-
-                    }
-
-                }
+              #                            spec = {
+              #
+              #                                containers = [
+              #
+              #                                    {
+              #
+              #                                        name = "rabbitmq"
+              #
+              #                                        ports = [
+              #
+              #                                            {
+              #
+              #                                                name          = "prometheus"
+              #                                                protocol      = "TCP"
+              #                                                containerPort = 15692
+              #
+              #                                            }
+              #
+              #                                        ]
+              #
+              #                                    }
+              #
+              #                                ]
+              #
+              #                            }
 
             }
 
-            persistence = {
+          }
 
-                storageClassName = var.storage_class
-                storage          = "${ var.storage_gb }Gi"
+        }
 
-            }
+      }
 
-            resources = {
+      persistence = {
 
-                requests = {
+        storageClassName = var.storage_class
+        storage          = "${var.storage_gb}Gi"
 
-                    cpu    = var.limit_cpu
-                    memory = var.limit_memory
+      }
 
-                }
+      resources = {
 
-                limits = {
+        requests = {
 
-                    cpu    = var.limit_cpu
-                    memory = var.limit_memory
+          cpu    = var.limit_cpu
+          memory = var.limit_memory
 
-                }
+        }
 
-            }
+        limits = {
 
-            rabbitmq = {
+          cpu    = var.limit_cpu
+          memory = var.limit_memory
 
-                additionalPlugins = var.additional_plugins
-                additionalConfig  = <<EOF
+        }
+
+      }
+
+      rabbitmq = {
+
+        additionalPlugins = var.additional_plugins
+        additionalConfig  = <<EOF
 prometheus.return_per_object_metrics = true
 consumer_timeout = 3600000
-default_user = ${ var.default_username }
-default_pass = ${ var.default_password }
+default_user = ${var.default_username}
+default_pass = ${var.default_password}
 EOF
 
-            }
+      }
 
-            persistence = var.persistence
+      persistence = var.persistence
 
-            resources = {
+      resources = {
 
-                requests = {
+        requests = {
 
-                    cpu    = var.request_cpu
-                    memory = var.request_memory
-
-                }
-
-                limits = {
-
-                    cpu    = var.limit_cpu
-                    memory = var.limit_memory
-
-                }
-
-            }
+          cpu    = var.request_cpu
+          memory = var.request_memory
 
         }
 
+        limits = {
+
+          cpu    = var.limit_cpu
+          memory = var.limit_memory
+
+        }
+
+      }
+
     }
 
+  }
 }
