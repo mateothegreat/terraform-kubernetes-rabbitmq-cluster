@@ -14,22 +14,146 @@ resource "kubernetes_manifest" "cluster" {
         }
 
         "spec" = {
+            override = {
 
-            replicas = var.replicas
-            image    = var.image
+                service = {
 
-            service = {
+                    spec = {
 
-                type = "LoadBalancer"
+                        ports = [
 
-                annotations = {
+                            {
 
-                    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-                    "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
+                                name     = "management-http"
+                                protocol = "TCP"
+                                port     = 15672
+
+                            },
+                            {
+
+                                name     = "tcp"
+                                protocol = "TCP"
+                                port     = 5672
+
+                            }
+
+                        ]
+
+                    }
+
+                }
+
+                statefulSet = {
+
+                    spec = {
+
+                        template = {
+
+                            metadata = {
+
+                                labels = var.labels
+
+                            }
+
+                            spec = {
+
+                                containers = [
+
+                                    {
+
+                                        name = "rabbitmq"
+
+                                        ports = [
+
+                                            {
+                                                name          = "tcp"
+                                                containerPort = 5672
+
+                                            },
+                                            {
+
+                                                name          = "management"
+                                                containerPort = 15672
+
+                                            }
+
+                                        ]
+
+                                    }
+
+                                ]
+
+                            }
+
+                            #                            spec = {
+                            #
+                            #                                containers = [
+                            #
+                            #                                    {
+                            #
+                            #                                        name = "rabbitmq"
+                            #
+                            #                                        ports = [
+                            #
+                            #                                            {
+                            #
+                            #                                                name          = "prometheus"
+                            #                                                protocol      = "TCP"
+                            #                                                containerPort = 15692
+                            #
+                            #                                            }
+                            #
+                            #                                        ]
+                            #
+                            #                                    }
+                            #
+                            #                                ]
+                            #
+                            #                            }
+
+                        }
+
+                    }
 
                 }
 
             }
+
+            #            service = {
+            #
+            #                type = "ClusterIP"
+            #
+            #            }
+
+            replicas = var.replicas
+            image    = var.image
+
+            #            service = {
+            #
+            #                ports = [
+            #
+            #                    {
+            #
+            #                        protocol = "TCP"
+            #                        port     = 5672
+            #
+            #                    }
+            #
+            #                ]
+            #
+            #            }
+            #            service = {
+            #
+            #                type = "LoadBalancer"
+            #
+            #                annotations = {
+            #
+            #                    "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+            #                    "service.beta.kubernetes.io/aws-load-balancer-internal" = var.internal_cidrs
+            #
+            #                }
+            #
+            #            }
 
             affinity = {
 
@@ -63,77 +187,10 @@ resource "kubernetes_manifest" "cluster" {
 
             }
 
-            override = {
-
-#                service = {
-#
-#                    spec = {
-#
-#                        ports = [
-#
-#                            {
-#
-#                                name     = "prometheus"
-#                                protocol = "TCP"
-#                                port     = 15692
-#
-#                            }
-#
-#                        ]
-#
-#                    }
-#
-#                }
-
-                statefulSet = {
-
-                    spec = {
-
-                        template = {
-
-                            metadata = {
-
-                                labels = var.labels
-
-                            }
-
-#                            spec = {
-#
-#                                containers = [
-#
-#                                    {
-#
-#                                        name = "rabbitmq"
-#
-#                                        ports = [
-#
-#                                            {
-#
-#                                                name          = "prometheus"
-#                                                protocol      = "TCP"
-#                                                containerPort = 15692
-#
-#                                            }
-#
-#                                        ]
-#
-#                                    }
-#
-#                                ]
-#
-#                            }
-
-                        }
-
-                    }
-
-                }
-
-            }
 
             persistence = {
 
-                storageClassName = "gp2"
+                storageClassName = var.storage_class_name
                 storage          = "${ var.storage_gb }Gi"
 
             }

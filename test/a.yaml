@@ -1,0 +1,21 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+spec:
+  service:
+    type: NodePort
+  override:
+    service:
+      spec:
+        ports:
+          - name: http
+            protocol: TCP
+            port: 15672
+            targetPort: 15672
+            nodePort: 31672
+          - name: amqp
+            protocol: TCP
+            port: 5672
+            targetPort: 5672
+            nodePort: 30672
